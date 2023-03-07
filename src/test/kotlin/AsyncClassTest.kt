@@ -17,6 +17,17 @@ class AsyncClassTest {
   }
 
   @Test
+  fun webWork2() {
+    MockWebServer().use {
+      val classUnderTest = AsyncClass(it.url("testServer/").toString())
+      it.enqueue(MockResponse().setBody("{}").setResponseCode(200))
+      runBlocking {
+        classUnderTest.doWebWork2("foo")
+      }
+    }
+  }
+
+  @Test
   fun localWork() {
     val classUnderTest = AsyncClass("testServer/")
     runBlocking {
